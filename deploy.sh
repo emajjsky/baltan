@@ -53,4 +53,5 @@ fi
 echo "🌐 4. Vercel 自动部署中..."
 echo "   （Vercel 检测到 GitHub push 会自动重新部署）"
 
-echo "✅ 自动部署完成！"
+# 4. 飞书通知（暂时禁用，待配置好频道后启用）
+# echo "📨 发送飞书通知..."
