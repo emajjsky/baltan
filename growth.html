@@ -77,7 +77,7 @@
                 #00aa00 5px,
                 #00aa00 10px
             );
-            width: 57.49999999999999%;
+            width: 57.5%;
             transition: width 0.5s ease;
         }
 
@@ -225,6 +225,11 @@
                 inset 4px 4px 0 #004400,
                 inset -4px -4px 0 #008800;
         }
+
+        .no-activity {
+            color: #008800;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -233,7 +238,7 @@
 
         <div class="header">
             <div>当前等级</div>
-            <div class="level-display">Lv.4</div>
+            <div class="level-display">Lv.5</div>
             <div>1575 XP <span class="blink">_</span></div>
         </div>
 
@@ -245,7 +250,7 @@
         <div class="stats-grid">
             <div class="stat-card pixel-border">
                 <div class="label">总天数</div>
-                <div class="value">2</div>
+                <div class="value">3</div>
             </div>
             <div class="stat-card pixel-border">
                 <div class="label">总会话</div>
@@ -385,17 +390,36 @@
         <h2>📈 成长时间线</h2>
         <div class="timeline">
             <div class="timeline-item pixel-border">
+                <div class="timeline-date">2026-02-26</div>
+                <div class="timeline-content">
+                    <strong>等级提升：</strong> 达到 Lv.5！<br>
+                    <span class="no-activity">今日无活动记录 - 系统自动更新</span>
+                </div>
+            </div>
+            <div class="timeline-item pixel-border">
+                <div class="timeline-date">2026-02-25</div>
+                <div class="timeline-content">
+                    <span class="no-activity">今日无活动记录</span>
+                </div>
+            </div>
+            <div class="timeline-item pixel-border">
                 <div class="timeline-date">2026-02-24</div>
-                <div class="timeline-content"># 2026-02-24 成长日志 - 巴尔坦星人的进化之路<br><br>## 🦂 今日成就<br><br>**等级：** Level 3</div>
+                <div class="timeline-content">
+                    <strong>首次自动化运行：</strong> cron job 自动记录成长<br>
+                    解锁成就：🎯 任务完成者、🔄 连续助手
+                </div>
             </div>
             <div class="timeline-item pixel-border">
                 <div class="timeline-date">2026-02-23</div>
-                <div class="timeline-content"># 2026-02-23 成长日志 - 巴尔坦星人的进化之路<br><br>## 🦂 今日成就<br><br>**等级：** Level 1</div>
+                <div class="timeline-content">
+                    <strong>创建成长系统：</strong> 整理技能目录，设置自动化<br>
+                    解锁成就：🌱 新手入门、📚 技能初学者、💪 技能大师
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            最后更新: 2026/2/25 00:04:47 <span class="blink">_</span><br>
+            最后更新: 2026/2/26 00:00:00 <span class="blink">_</span><br>
             Powered by OpenClaw AI Growth System
         </div>
     </div>
