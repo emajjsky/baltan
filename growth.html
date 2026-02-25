@@ -77,7 +77,7 @@
                 #00aa00 5px,
                 #00aa00 10px
             );
-            width: 57.5%;
+            width: 12.5%;
             transition: width 0.5s ease;
         }
 
@@ -104,45 +104,67 @@
         .stat-card .value {
             font-size: 28px;
             color: #00ff00;
-            font-weight: bold;
+            text-shadow: 1px 1px 0 #004400;
+        }
+
+        .pixel-border {
+            border: 3px solid #00ff00;
+            background: #0d1a0d;
+            box-shadow:
+                inset -3px -3px 0 #004400,
+                inset 3px 3px 0 #00ff00;
         }
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin: 20px 0;
         }
 
         .skill-card {
-            background: #001a00;
-            border: 2px solid #00aa00;
             padding: 15px;
+            text-align: center;
         }
 
         .skill-card h3 {
-            color: #00ff00;
             font-size: 18px;
             margin-bottom: 10px;
+            color: #00ff00;
         }
 
         .skill-level {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .skill-level span {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .xp-bar {
+            height: 10px;
+            background: #002200;
+            border: 2px solid #00ff00;
             margin: 5px 0;
         }
 
-        .skill-bar {
-            flex: 1;
-            height: 12px;
-            background: #002200;
-            border: 1px solid #00aa00;
-        }
-
-        .skill-bar-fill {
+        .xp-fill {
             height: 100%;
             background: #00ff00;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        .xp-text {
+            font-size: 12px;
+            color: #00aa00;
+        }
+
+        .skill-uses {
+            font-size: 12px;
+            color: #00aa00;
         }
 
         .achievements {
@@ -153,15 +175,8 @@
         }
 
         .achievement {
-            background: #001a00;
-            border: 2px solid #00aa00;
             padding: 15px;
             text-align: center;
-        }
-
-        .achievement.locked {
-            opacity: 0.5;
-            border-color: #004400;
         }
 
         .achievement .icon {
@@ -171,8 +186,9 @@
 
         .achievement .name {
             font-size: 16px;
-            color: #00ff00;
+            font-weight: bold;
             margin-bottom: 5px;
+            color: #00ff00;
         }
 
         .achievement .description {
@@ -185,33 +201,57 @@
         }
 
         .timeline-item {
-            background: #001a00;
-            border-left: 4px solid #00ff00;
             padding: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .timeline-date {
             font-size: 14px;
             color: #00aa00;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
         .timeline-content {
             font-size: 14px;
+            color: #00ff00;
+        }
+
+        .no-activity {
+            color: #004400;
+            font-style: italic;
+        }
+
+        .abilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .ability-bar {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .ability-bar .label {
+            font-size: 14px;
+            color: #00aa00;
+            margin-bottom: 5px;
+        }
+
+        .ability-bar .value {
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
             padding-top: 20px;
-            border-top: 2px solid #00aa00;
+            border-top: 2px solid #00ff00;
             color: #00aa00;
             font-size: 12px;
-        }
-
-        .blink {
-            animation: blink 1s infinite;
         }
 
         @keyframes blink {
@@ -219,207 +259,217 @@
             51%, 100% { opacity: 0; }
         }
 
-        .pixel-border {
-            border: 4px solid #00ff00;
-            box-shadow:
-                inset 4px 4px 0 #004400,
-                inset -4px -4px 0 #008800;
+        .blink {
+            animation: blink 1s infinite;
         }
 
-        .no-activity {
-            color: #008800;
-            font-style: italic;
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                border-width: 2px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .level-display {
+                font-size: 32px;
+            }
+
+            .stats-grid,
+            .skills-grid,
+            .achievements,
+            .abilities-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🦂 巴尔坦星人成长日志</h1>
-
         <div class="header">
-            <div>当前等级</div>
-            <div class="level-display">Lv.5</div>
-            <div>1575 XP <span class="blink">_</span></div>
+            <h1>🦂 巴尔坦星人成长日志</h1>
+            <div class="level-display">Lv.3</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div style="text-align: center; margin: 10px 0;">
+                <span style="color: #00aa00;">550 XP</span>
+            </div>
         </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-
-        <h2>📊 统计数据</h2>
         <div class="stats-grid">
             <div class="stat-card pixel-border">
                 <div class="label">总天数</div>
-                <div class="value">3</div>
+                <div class="value">2</div>
             </div>
             <div class="stat-card pixel-border">
                 <div class="label">总会话</div>
-                <div class="value">3</div>
+                <div class="value">6</div>
             </div>
             <div class="stat-card pixel-border">
                 <div class="label">完成任务</div>
-                <div class="value">5</div>
+                <div class="value">2</div>
             </div>
             <div class="stat-card pixel-border">
                 <div class="label">技能使用</div>
-                <div class="value">136</div>
+                <div class="value">10</div>
+            </div>
+        </div>
+
+        <h2>⚔️ 能力值</h2>
+        <div class="abilities-grid">
+            <div class="ability-bar pixel-border">
+                <div class="label">攻击力</div>
+                <div class="value">4</div>
+            </div>
+            <div class="ability-bar pixel-border">
+                <div class="label">防御力</div>
+                <div class="value">4</div>
+            </div>
+            <div class="ability-bar pixel-border">
+                <div class="label">智力</div>
+                <div class="value">4</div>
+            </div>
+            <div class="ability-bar pixel-border">
+                <div class="label">科技</div>
+                <div class="value">10</div>
+            </div>
+            <div class="ability-bar pixel-border">
+                <div class="label">社交</div>
+                <div class="value">0</div>
             </div>
         </div>
 
         <h2>🎮 技能熟练度</h2>
         <div class="skills-grid">
-            <div class="skill-card pixel-border">
-                <h3>exec</h3>
-                <div class="skill-level">
-                    <span>Lv.4</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 100%"></div>
-                    </div>
-                    <span>740 XP</span>
-                </div>
-                <div>使用: 74 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>read</h3>
-                <div class="skill-level">
-                    <span>Lv.2</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 95%"></div>
-                    </div>
-                    <span>190 XP</span>
-                </div>
-                <div>使用: 19 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>process</h3>
-                <div class="skill-level">
-                    <span>Lv.2</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 95%"></div>
-                    </div>
-                    <span>190 XP</span>
-                </div>
-                <div>使用: 19 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>write</h3>
-                <div class="skill-level">
-                    <span>Lv.2</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 70%"></div>
-                    </div>
-                    <span>140 XP</span>
-                </div>
-                <div>使用: 14 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>edit</h3>
-                <div class="skill-level">
-                    <span>Lv.1</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 40%"></div>
-                    </div>
-                    <span>40 XP</span>
-                </div>
-                <div>使用: 4 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>cron</h3>
-                <div class="skill-level">
-                    <span>Lv.1</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 30%"></div>
-                    </div>
-                    <span>30 XP</span>
-                </div>
-                <div>使用: 3 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>web_fetch</h3>
-                <div class="skill-level">
-                    <span>Lv.1</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 20%"></div>
-                    </div>
-                    <span>20 XP</span>
-                </div>
-                <div>使用: 2 次</div>
-            </div>
-            <div class="skill-card pixel-border">
-                <h3>unifuncs_search</h3>
-                <div class="skill-level">
-                    <span>Lv.1</span>
-                    <div class="skill-bar">
-                        <div class="skill-bar-fill" style="width: 10%"></div>
-                    </div>
-                    <span>10 XP</span>
-                </div>
-                <div>使用: 1 次</div>
-            </div>
+            
+    <div class="skill-card pixel-border">
+      <h3>exec</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 60%"></div>
+        </div>
+        <div class="xp-text">60 XP</div>
+      </div>
+      <div class="skill-uses">使用 6 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>read</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 60%"></div>
+        </div>
+        <div class="xp-text">60 XP</div>
+      </div>
+      <div class="skill-uses">使用 6 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>write</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 60%"></div>
+        </div>
+        <div class="xp-text">60 XP</div>
+      </div>
+      <div class="skill-uses">使用 6 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>edit</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 30%"></div>
+        </div>
+        <div class="xp-text">30 XP</div>
+      </div>
+      <div class="skill-uses">使用 3 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>browser</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 30%"></div>
+        </div>
+        <div class="xp-text">30 XP</div>
+      </div>
+      <div class="skill-uses">使用 3 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>feishu_doc</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 30%"></div>
+        </div>
+        <div class="xp-text">30 XP</div>
+      </div>
+      <div class="skill-uses">使用 3 次</div>
+    </div>
+  
+    <div class="skill-card pixel-border">
+      <h3>message</h3>
+      <div class="skill-level">
+        <span>Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-fill" style="width: 30%"></div>
+        </div>
+        <div class="xp-text">30 XP</div>
+      </div>
+      <div class="skill-uses">使用 3 次</div>
+    </div>
+  
         </div>
 
         <h2>🏆 成就徽章</h2>
         <div class="achievements">
-            <div class="achievement  pixel-border">
-                <div class="icon">🌱</div>
-                <div class="name">🌱 新手入门</div>
-                <div class="description">首次运行</div>
-            </div>
-            <div class="achievement  pixel-border">
-                <div class="icon">📚</div>
-                <div class="name">📚 技能初学者</div>
-                <div class="description">使用技能 10 次</div>
-            </div>
-            <div class="achievement  pixel-border">
-                <div class="icon">🎯</div>
-                <div class="name">🎯 任务完成者</div>
-                <div class="description">帮助用户完成 5 个任务</div>
-            </div>
-            <div class="achievement  pixel-border">
-                <div class="icon">🔄</div>
-                <div class="name">🔄 连续助手</div>
-                <div class="description">连续 2 天记录成长</div>
-            </div>
-            <div class="achievement  pixel-border">
-                <div class="icon">💪</div>
-                <div class="name">💪 技能大师</div>
-                <div class="description">使用技能 50 次</div>
-            </div>
+            
+    <div class="achievement pixel-border">
+      <div class="icon">初次启程</div>
+      <div class="name">初次启程</div>
+      <div class="description">首次记录成长</div>
+    </div>
+  
+    <div class="achievement pixel-border">
+      <div class="icon">技能初学者</div>
+      <div class="name">技能初学者</div>
+      <div class="description">使用技能 10 次</div>
+    </div>
+  
+    <div class="achievement pixel-border">
+      <div class="icon">🔄</div>
+      <div class="name">🔄 连续助手</div>
+      <div class="description">连续 2 天记录成长</div>
+    </div>
+  
         </div>
 
-        <h2>📈 成长时间线</h2>
+        <h2>📅 成长时间线</h2>
         <div class="timeline">
-            <div class="timeline-item pixel-border">
-                <div class="timeline-date">2026-02-26</div>
-                <div class="timeline-content">
-                    <strong>等级提升：</strong> 达到 Lv.5！<br>
-                    <span class="no-activity">今日无活动记录 - 系统自动更新</span>
-                </div>
-            </div>
-            <div class="timeline-item pixel-border">
-                <div class="timeline-date">2026-02-25</div>
-                <div class="timeline-content">
-                    <span class="no-activity">今日无活动记录</span>
-                </div>
-            </div>
-            <div class="timeline-item pixel-border">
-                <div class="timeline-date">2026-02-24</div>
-                <div class="timeline-content">
-                    <strong>首次自动化运行：</strong> cron job 自动记录成长<br>
-                    解锁成就：🎯 任务完成者、🔄 连续助手
-                </div>
-            </div>
-            <div class="timeline-item pixel-border">
-                <div class="timeline-date">2026-02-23</div>
-                <div class="timeline-content">
-                    <strong>创建成长系统：</strong> 整理技能目录，设置自动化<br>
-                    解锁成就：🌱 新手入门、📚 技能初学者、💪 技能大师
-                </div>
-            </div>
+            
+    <div class="timeline-item pixel-border">
+      <div class="timeline-date">2026-02-24</div>
+      <div class="timeline-content">
+        <strong>会话次数：</strong>2<br>
+        <strong>完成任务：</strong><br>• ✅ 初始化成长数据结构<br>• ⏳ 设计符合美菲拉斯审美的成长站<br>
+        <strong>解锁成就：ai-growth自动记录系统</strong>
+      </div>
+    </div>
+  
         </div>
 
         <div class="footer">
-            最后更新: 2026/2/26 00:00:00 <span class="blink">_</span><br>
+            最后更新: 2026/2/26 00:24:41 <span class="blink">_</span><br>
             Powered by OpenClaw AI Growth System
         </div>
     </div>
