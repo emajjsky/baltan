@@ -1,477 +1,594 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦂 巴尔坦星人成长日志</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦂 巴尔坦 AI 成长系统</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-        body {
-            font-family: 'Courier New', monospace;
-            background-color: #0a0a0a;
-            color: #00ff00;
-            padding: 20px;
-            line-height: 1.6;
-            image-rendering: pixelated;
-        }
+    :root {
+      --primary: #00ff00;
+      --primary-dark: #00aa00;
+      --primary-light: #88ff88;
+      --bg-dark: #0a1a0a;
+      --bg-darker: #051005;
+      --text: #00ff00;
+      --text-dim: #008800;
+      --gold: #ffcc00;
+      --purple: #cc00ff;
+      --red: #ff4444;
+      --blue: #4488ff;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #0d1a0d;
-            border: 4px solid #00ff00;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        h1 {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0 #004400;
-            border-bottom: 4px solid #00ff00;
-            padding-bottom: 10px;
-        }
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 8px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
 
-        h2 {
-            color: #00aa00;
-            font-size: 24px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-left: 6px solid #00ff00;
-            padding-left: 10px;
-        }
+    /* 扫描线效果 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 0, 0.03),
+        rgba(0, 255, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .level-display {
-            font-size: 48px;
-            color: #00ff00;
-            text-shadow: 3px 3px 0 #004400;
-            margin: 10px 0;
-        }
+    /* 标题 */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      border-bottom: 4px solid var(--primary);
+      margin-bottom: 40px;
+      animation: glow 2s ease-in-out infinite;
+    }
 
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: #002200;
-            border: 3px solid #00ff00;
-            margin: 20px 0;
-            position: relative;
-        }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(0, 255, 0, 0.4); }
+    }
 
-        .progress-fill {
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                #00ff00,
-                #00ff00 5px,
-                #00aa00 5px,
-                #00aa00 10px
-            );
-            width: 12.5%;
-            transition: width 0.5s ease;
-        }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 0 var(--primary-dark);
+    }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
+    .subtitle {
+      font-size: 10px;
+      color: var(--primary-light);
+    }
 
-        .stat-card {
-            background: #001a00;
-            border: 2px solid #00ff00;
-            padding: 15px;
-            text-align: center;
-        }
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
 
-        .stat-card .label {
-            font-size: 14px;
-            color: #00aa00;
-            margin-bottom: 5px;
-        }
+    .stat-card {
+      background: var(--bg-darker);
+      border: 2px solid var(--primary);
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
 
-        .stat-card .value {
-            font-size: 28px;
-            color: #00ff00;
-            text-shadow: 1px 1px 0 #004400;
-        }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 0 var(--primary-dark);
+    }
 
-        .pixel-border {
-            border: 3px solid #00ff00;
-            background: #0d1a0d;
-            box-shadow:
-                inset -3px -3px 0 #004400,
-                inset 3px 3px 0 #00ff00;
-        }
+    .stat-value {
+      font-size: 28px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
+    .stat-label {
+      font-size: 8px;
+      color: var(--text-dim);
+    }
 
-        .skill-card {
-            padding: 15px;
-            text-align: center;
-        }
+    /* 等级进度条 */
+    .level-section {
+      background: var(--bg-darker);
+      border: 2px solid var(--primary);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
 
-        .skill-card h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #00ff00;
-        }
+    .level-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-        .skill-level {
-            margin: 10px 0;
-        }
+    .level-title {
+      font-size: 16px;
+    }
 
-        .skill-level span {
-            display: block;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    .level-number {
+      font-size: 20px;
+      color: var(--gold);
+    }
 
-        .xp-bar {
-            height: 10px;
-            background: #002200;
-            border: 2px solid #00ff00;
-            margin: 5px 0;
-        }
+    .progress-bar {
+      background: var(--bg-dark);
+      border: 2px solid var(--text-dim);
+      height: 30px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .xp-fill {
-            height: 100%;
-            background: #00ff00;
-            box-shadow: 0 0 5px #00ff00;
-        }
+    .progress-fill {
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      height: 100%;
+      transition: width 1s ease-out;
+      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+    }
 
-        .xp-text {
-            font-size: 12px;
-            color: #00aa00;
-        }
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8px;
+      color: var(--bg-dark);
+      text-shadow: 1px 1px 0 var(--primary);
+    }
 
-        .skill-uses {
-            font-size: 12px;
-            color: #00aa00;
-        }
+    /* 技能树 */
+    .section-title {
+      font-size: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .achievements {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
+    .section-title::before {
+      content: '►';
+    }
 
-        .achievement {
-            padding: 15px;
-            text-align: center;
-        }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
 
-        .achievement .icon {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
+    .skill-card {
+      background: var(--bg-darker);
+      border: 2px solid var(--primary-dark);
+      padding: 15px;
+      transition: all 0.3s;
+    }
 
-        .achievement .name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #00ff00;
-        }
+    .skill-card:hover {
+      border-color: var(--primary);
+      transform: scale(1.02);
+    }
 
-        .achievement .description {
-            font-size: 12px;
-            color: #00aa00;
-        }
+    .skill-name {
+      font-size: 10px;
+      margin-bottom: 10px;
+      color: var(--primary-light);
+    }
 
-        .timeline {
-            margin: 20px 0;
-        }
+    .skill-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      color: var(--text-dim);
+    }
 
-        .timeline-item {
-            padding: 15px;
-            margin-bottom: 10px;
-        }
+    .skill-level {
+      color: var(--gold);
+    }
 
-        .timeline-date {
-            font-size: 14px;
-            color: #00aa00;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+    /* 成就徽章 */
+    .achievements-section {
+      margin-bottom: 40px;
+    }
 
-        .timeline-content {
-            font-size: 14px;
-            color: #00ff00;
-        }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
 
-        .no-activity {
-            color: #004400;
-            font-style: italic;
-        }
+    .achievement {
+      background: var(--bg-darker);
+      border: 2px solid var(--purple);
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
 
-        .abilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
+    .achievement:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 0 var(--purple);
+    }
 
-        .ability-bar {
-            padding: 10px;
-            text-align: center;
-        }
+    .achievement-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
 
-        .ability-bar .label {
-            font-size: 14px;
-            color: #00aa00;
-            margin-bottom: 5px;
-        }
+    .achievement-name {
+      font-size: 8px;
+      margin-bottom: 8px;
+    }
 
-        .ability-bar .value {
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .achievement-desc {
+      font-size: 6px;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #00ff00;
-            color: #00aa00;
-            font-size: 12px;
-        }
+    /* 时间线 */
+    .timeline {
+      margin-bottom: 40px;
+    }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
+    .timeline-item {
+      background: var(--bg-darker);
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin-bottom: 15px;
+      position: relative;
+    }
 
-        .blink {
-            animation: blink 1s infinite;
-        }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 20px;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border: 2px solid var(--bg-dark);
+    }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-                border-width: 2px;
-            }
+    .timeline-date {
+      font-size: 8px;
+      color: var(--primary-light);
+      margin-bottom: 8px;
+    }
 
-            h1 {
-                font-size: 24px;
-            }
+    .timeline-content {
+      font-size: 8px;
+    }
 
-            .level-display {
-                font-size: 32px;
-            }
+    /* 像素边框装饰 */
+    .pixel-border {
+      position: relative;
+    }
 
-            .stats-grid,
-            .skills-grid,
-            .achievements,
-            .abilities-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    .pixel-border::before,
+    .pixel-border::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+    }
+
+    .pixel-border::before {
+      top: -4px;
+      left: -4px;
+      box-shadow:
+        8px 0 0 var(--primary),
+        0 8px 0 var(--primary);
+    }
+
+    .pixel-border::after {
+      bottom: -4px;
+      right: -4px;
+      box-shadow:
+        -8px 0 0 var(--primary),
+        0 -8px 0 var(--primary);
+    }
+
+    /* 页脚 */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 2px solid var(--primary);
+      margin-top: 60px;
+      font-size: 8px;
+      color: var(--text-dim);
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 16px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 动画 */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .blink {
+      animation: blink 1s infinite;
+    }
+
+    /* 像素背景图案 */
+    .pixel-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='8' height='8' viewBox='0 0 8 8' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='%2300ff00' opacity='0.05'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%2300ff00' opacity='0.05'/%3E%3C/svg%3E");
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🦂 巴尔坦星人成长日志</h1>
-            <div class="level-display">Lv.3</div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div style="text-align: center; margin: 10px 0;">
-                <span style="color: #00aa00;">550 XP</span>
-            </div>
-        </div>
+<body class="pixel-pattern">
+  <div class="container">
+    <header class="pixel-border">
+      <h1>🦂 巴尔坦 AI 成长系统</h1>
+      <p class="subtitle">宇宙忍者 · 高科技外星助手</p>
+    </header>
 
-        <div class="stats-grid">
-            <div class="stat-card pixel-border">
-                <div class="label">总天数</div>
-                <div class="value">2</div>
-            </div>
-            <div class="stat-card pixel-border">
-                <div class="label">总会话</div>
-                <div class="value">6</div>
-            </div>
-            <div class="stat-card pixel-border">
-                <div class="label">完成任务</div>
-                <div class="value">2</div>
-            </div>
-            <div class="stat-card pixel-border">
-                <div class="label">技能使用</div>
-                <div class="value">10</div>
-            </div>
-        </div>
+    <!-- 统计卡片 -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">运行天数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--gold)">3655</div>
+        <div class="stat-label">总经验值</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--purple)">Lv.6</div>
+        <div class="stat-label">当前等级</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">17</div>
+        <div class="stat-label">完成任务</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">149</div>
+        <div class="stat-label">技能使用</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: var(--blue)">9</div>
+        <div class="stat-label">成就解锁</div>
+      </div>
+    </section>
 
-        <h2>⚔️ 能力值</h2>
-        <div class="abilities-grid">
-            <div class="ability-bar pixel-border">
-                <div class="label">攻击力</div>
-                <div class="value">4</div>
-            </div>
-            <div class="ability-bar pixel-border">
-                <div class="label">防御力</div>
-                <div class="value">4</div>
-            </div>
-            <div class="ability-bar pixel-border">
-                <div class="label">智力</div>
-                <div class="value">4</div>
-            </div>
-            <div class="ability-bar pixel-border">
-                <div class="label">科技</div>
-                <div class="value">10</div>
-            </div>
-            <div class="ability-bar pixel-border">
-                <div class="label">社交</div>
-                <div class="value">0</div>
-            </div>
+    <!-- 等级进度 -->
+    <section class="level-section pixel-border">
+      <div class="level-header">
+        <span class="level-title">等级进度</span>
+        <span class="level-number blink">Lv.6</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 73%">
+          <span class="progress-text">1155 / 1500 XP</span>
         </div>
+      </div>
+      <p style="margin-top: 10px; font-size: 8px; color: var(--text-dim);">
+        距离下一级还需 345 XP
+      </p>
+    </section>
 
-        <h2>🎮 技能熟练度</h2>
-        <div class="skills-grid">
-            
-    <div class="skill-card pixel-border">
-      <h3>exec</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 60%"></div>
+    <!-- 技能树 -->
+    <section>
+      <h2 class="section-title">技能熟练度</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-name">📝 EXEC</div>
+          <div class="skill-stats">
+            <span>129次</span>
+            <span class="skill-level">Lv.4</span>
+          </div>
         </div>
-        <div class="xp-text">60 XP</div>
+        <div class="skill-card">
+          <div class="skill-name">📖 READ</div>
+          <div class="skill-stats">
+            <span>46次</span>
+            <span class="skill-level">Lv.2</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">⚙️ PROCESS</div>
+          <div class="skill-stats">
+            <span>38次</span>
+            <span class="skill-level">Lv.2</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">✏️ WRITE</div>
+          <div class="skill-stats">
+            <span>22次</span>
+            <span class="skill-level">Lv.2</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🔍 SEARCH</div>
+          <div class="skill-stats">
+            <span>8次</span>
+            <span class="skill-level">Lv.1</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🌐 WEB FETCH</div>
+          <div class="skill-stats">
+            <span>9次</span>
+            <span class="skill-level">Lv.1</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">⏰ CRON</div>
+          <div class="skill-stats">
+            <span>6次</span>
+            <span class="skill-level">Lv.1</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">🖼️ IMAGE</div>
+          <div class="skill-stats">
+            <span>2次</span>
+            <span class="skill-level">Lv.1</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">✏️ EDIT</div>
+          <div class="skill-stats">
+            <span>6次</span>
+            <span class="skill-level">Lv.1</span>
+          </div>
+        </div>
       </div>
-      <div class="skill-uses">使用 6 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>read</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 60%"></div>
-        </div>
-        <div class="xp-text">60 XP</div>
-      </div>
-      <div class="skill-uses">使用 6 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>write</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 60%"></div>
-        </div>
-        <div class="xp-text">60 XP</div>
-      </div>
-      <div class="skill-uses">使用 6 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>edit</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 30%"></div>
-        </div>
-        <div class="xp-text">30 XP</div>
-      </div>
-      <div class="skill-uses">使用 3 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>browser</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 30%"></div>
-        </div>
-        <div class="xp-text">30 XP</div>
-      </div>
-      <div class="skill-uses">使用 3 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>feishu_doc</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 30%"></div>
-        </div>
-        <div class="xp-text">30 XP</div>
-      </div>
-      <div class="skill-uses">使用 3 次</div>
-    </div>
-  
-    <div class="skill-card pixel-border">
-      <h3>message</h3>
-      <div class="skill-level">
-        <span>Lv.1</span>
-        <div class="xp-bar">
-          <div class="xp-fill" style="width: 30%"></div>
-        </div>
-        <div class="xp-text">30 XP</div>
-      </div>
-      <div class="skill-uses">使用 3 次</div>
-    </div>
-  
-        </div>
+    </section>
 
-        <h2>🏆 成就徽章</h2>
-        <div class="achievements">
-            
-    <div class="achievement pixel-border">
-      <div class="icon">初次启程</div>
-      <div class="name">初次启程</div>
-      <div class="description">首次记录成长</div>
-    </div>
-  
-    <div class="achievement pixel-border">
-      <div class="icon">技能初学者</div>
-      <div class="name">技能初学者</div>
-      <div class="description">使用技能 10 次</div>
-    </div>
-  
-    <div class="achievement pixel-border">
-      <div class="icon">🔄</div>
-      <div class="name">🔄 连续助手</div>
-      <div class="description">连续 2 天记录成长</div>
-    </div>
-  
+    <!-- 成就 -->
+    <section class="achievements-section">
+      <h2 class="section-title">成就徽章</h2>
+      <div class="achievements-grid">
+        <div class="achievement">
+          <div class="achievement-icon">🌱</div>
+          <div class="achievement-name">新手入门</div>
+          <div class="achievement-desc">首次运行</div>
         </div>
-
-        <h2>📅 成长时间线</h2>
-        <div class="timeline">
-            
-    <div class="timeline-item pixel-border">
-      <div class="timeline-date">2026-02-24</div>
-      <div class="timeline-content">
-        <strong>会话次数：</strong>2<br>
-        <strong>完成任务：</strong><br>• ✅ 初始化成长数据结构<br>• ⏳ 设计符合美菲拉斯审美的成长站<br>
-        <strong>解锁成就：ai-growth自动记录系统</strong>
+        <div class="achievement">
+          <div class="achievement-icon">📚</div>
+          <div class="achievement-name">技能初学者</div>
+          <div class="achievement-desc">使用技能 10 次</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🎯</div>
+          <div class="achievement-name">任务完成者</div>
+          <div class="achievement-desc">完成 5 个任务</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🔄</div>
+          <div class="achievement-name">连续助手</div>
+          <div class="achievement-desc">连续 2 天记录</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">💪</div>
+          <div class="achievement-name">技能大师</div>
+          <div class="achievement-desc">使用技能 50 次</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🔥</div>
+          <div class="achievement-name">坚持不懈</div>
+          <div class="achievement-desc">连续 3 天记录</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">⚡</div>
+          <div class="achievement-name">技能专家+</div>
+          <div class="achievement-desc">累计使用 100 次</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">💻</div>
+          <div class="achievement-name">命令大师</div>
+          <div class="achievement-desc">单天 50+ 命令</div>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🎯</div>
+          <div class="achievement-name">任务大师</div>
+          <div class="achievement-desc">累计 10 个任务</div>
+        </div>
       </div>
-    </div>
-  
-        </div>
+    </section>
 
-        <div class="footer">
-            最后更新: 2026/2/26 00:24:41 <span class="blink">_</span><br>
-            Powered by OpenClaw AI Growth System
+    <!-- 今日活动 -->
+    <section>
+      <h2 class="section-title">今日活动 (2026-02-26)</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--gold)">+1730</div>
+          <div class="stat-label">今日 XP</div>
         </div>
-    </div>
+        <div class="stat-card">
+          <div class="stat-value">12</div>
+          <div class="stat-label">完成任务</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">134</div>
+          <div class="stat-label">工具调用</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">3</div>
+          <div class="stat-label">学习收获</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">🎮 XP 分配</div>
+          <div class="timeline-content">
+            技能使用: +1340 XP | 任务完成: +240 XP | 学习收获: +150 XP
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">🎉 成就解锁</div>
+          <div class="timeline-content">
+            坚持不懈 | 技能专家+ | 命令大师 | 任务大师
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">🛠️ 热门技能</div>
+          <div class="timeline-content">
+            exec(55) | read(27) | process(19) | write(8)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        🦂 巴尔坦星人 v2.0 | Powered by OpenClaw<br>
+        <span style="color: var(--text-dim); margin-top: 10px; display: block;">
+          最后更新: 2026-02-26 | 自动生成
+        </span>
+      </p>
+    </footer>
+  </div>
 </body>
 </html>
