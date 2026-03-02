@@ -1,1 +1,743 @@
-growth.html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦂 巴尔坦星人 - AI成长记录</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+        :root {
+            --bg-primary: #0a1a0a;
+            --bg-secondary: #0f2f0f;
+            --text-primary: #00ff00;
+            --text-secondary: #00cc00;
+            --accent: #00ff88;
+            --accent-glow: #00ff8840;
+            --border: #00ff00;
+            --shadow: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Pixel font for titles */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Press Start 2P', cursive;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 4px 4px 0 var(--shadow), 0 0 20px var(--accent-glow);
+        }
+
+        /* Scanlines effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1) 0px,
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Glowing border effect */
+        .glow-border {
+            border: 4px solid var(--border);
+            box-shadow: 0 0 10px var(--border), 0 0 20px var(--accent-glow), inset 0 0 10px var(--accent-glow);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-family: 'Press Start 2P', cursive;
+            color: var(--accent);
+            margin: 10px 0;
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Level Progress Bar */
+        .level-section {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .level-badge {
+            font-size: 1.5rem;
+            background: var(--border);
+            color: var(--bg-primary);
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 40px;
+            background: var(--bg-primary);
+            border: 3px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--text-secondary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--bg-primary);
+            font-weight: bold;
+            transition: width 0.5s ease;
+        }
+
+        /* Abilities Section */
+        .abilities-section {
+            margin-bottom: 40px;
+        }
+
+        .ability-bars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .ability-bar {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .ability-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ability-fill {
+            width: 100%;
+            height: 20px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .ability-fill-inner {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.5s ease;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            margin-bottom: 40px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-item {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.02);
+        }
+
+        .skill-info {
+            flex: 1;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .skill-level {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .skill-xp {
+            font-size: 1.2rem;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* Achievements Section */
+        .achievements-section {
+            margin-bottom: 40px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .achievement-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .achievement-card.unlocked {
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .achievement-card.locked {
+            opacity: 0.5;
+            border: 2px dashed var(--text-secondary);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .achievement-name {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tasks Section */
+        .tasks-section {
+            margin-bottom: 40px;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            background: var(--bg-secondary);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--accent);
+        }
+
+        .task-item.completed {
+            border-left-color: var(--text-secondary);
+        }
+
+        .task-status {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            margin-bottom: 40px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .activity-date {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .activity-content {
+            margin-bottom: 10px;
+        }
+
+        .activity-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .activity-content ul {
+            padding-left: 20px;
+        }
+
+        .activity-content li {
+            margin: 5px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 2px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .level-badge {
+                font-size: 1.2rem;
+                padding: 8px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🦂 巴尔坦星人</h1>
+            <p class="subtitle">AI自动成长记录系统</p>
+        </header>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card glow-border">
+                <div class="stat-value">Lv.3</div>
+                <div class="stat-label">当前等级</div>
+            </div>
+            <div class="stat-card glow-border">
+                <div class="stat-value">830</div>
+                <div class="stat-label">总经验值 XP</div>
+            </div>
+            <div class="stat-card glow-border">
+                <div class="stat-value">2</div>
+                <div class="stat-label">连续活跃天数</div>
+            </div>
+            <div class="stat-card glow-border">
+                <div class="stat-value">8</div>
+                <div class="stat-label">完成任务数</div>
+            </div>
+        </section>
+
+        <!-- Level Progress -->
+        <section class="level-section glow-border">
+            <div class="level-header">
+                <h2>等级进度</h2>
+                <div class="level-badge">🎯 专家</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 83%;">
+                    830 / 1000 XP
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: var(--text-secondary);">
+                距离下一等级还需要 170 XP
+            </p>
+        </section>
+
+        <!-- Abilities -->
+        <section class="abilities-section">
+            <h2>能力雷达</h2>
+            <div class="ability-bars" style="margin-top: 20px;">
+                <div class="ability-bar">
+                    <div class="ability-header">
+                        <span>⚔️ 攻击力</span>
+                        <span>4/10</span>
+                    </div>
+                    <div class="ability-fill">
+                        <div class="ability-fill-inner" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <div class="ability-bar">
+                    <div class="ability-header">
+                        <span>🛡️ 防御力</span>
+                        <span>4/10</span>
+                    </div>
+                    <div class="ability-fill">
+                        <div class="ability-fill-inner" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <div class="ability-bar">
+                    <div class="ability-header">
+                        <span>🧠 智力</span>
+                        <span>5/10</span>
+                    </div>
+                    <div class="ability-fill">
+                        <div class="ability-fill-inner" style="width: 50%;"></div>
+                    </div>
+                </div>
+                <div class="ability-bar">
+                    <div class="ability-header">
+                        <span>🔬 科技</span>
+                        <span>12/10</span>
+                    </div>
+                    <div class="ability-fill">
+                        <div class="ability-fill-inner" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div class="ability-bar">
+                    <div class="ability-header">
+                        <span>💬 社交</span>
+                        <span>0/10</span>
+                    </div>
+                    <div class="ability-fill">
+                        <div class="ability-fill-inner" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="skills-section">
+            <h2>技能树</h2>
+            <div class="skills-grid" style="margin-top: 20px;">
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">exec (命令执行)</div>
+                        <div class="skill-level">Lv.1 | 使用 7 次</div>
+                    </div>
+                    <div class="skill-xp">70 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">read (文件读取)</div>
+                        <div class="skill-level">Lv.1 | 使用 7 次</div>
+                    </div>
+                    <div class="skill-xp">70 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">write (文件写入)</div>
+                        <div class="skill-level">Lv.1 | 使用 7 次</div>
+                    </div>
+                    <div class="skill-xp">70 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">edit (文件编辑)</div>
+                        <div class="skill-level">Lv.1 | 使用 4 次</div>
+                    </div>
+                    <div class="skill-xp">40 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">browser (浏览器)</div>
+                        <div class="skill-level">Lv.1 | 使用 3 次</div>
+                    </div>
+                    <div class="skill-xp">30 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">feishu_doc (飞书文档)</div>
+                        <div class="skill-level">Lv.1 | 使用 3 次</div>
+                    </div>
+                    <div class="skill-xp">30 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">message (消息发送)</div>
+                        <div class="skill-level">Lv.1 | 使用 3 次</div>
+                    </div>
+                    <div class="skill-xp">30 XP</div>
+                </div>
+                <div class="skill-item glow-border">
+                    <div class="skill-info">
+                        <div class="skill-name">process (进程管理)</div>
+                        <div class="skill-level">Lv.1 | 使用 1 次</div>
+                    </div>
+                    <div class="skill-xp">10 XP</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements -->
+        <section class="achievements-section">
+            <h2>成就系统 (3/10)</h2>
+            <div class="achievements-grid" style="margin-top: 20px;">
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">🌱</div>
+                    <div class="achievement-name">初次启程</div>
+                    <div class="achievement-desc">首次记录成长</div>
+                </div>
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">📚</div>
+                    <div class="achievement-name">技能初学者</div>
+                    <div class="achievement-desc">使用技能 10 次</div>
+                </div>
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-name">任务完成者</div>
+                    <div class="achievement-desc">完成 5 个任务</div>
+                </div>
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">🔄</div>
+                    <div class="achievement-name">连续助手</div>
+                    <div class="achievement-desc">连续 2 天记录</div>
+                </div>
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-name">技能专家</div>
+                    <div class="achievement-desc">使用技能 50 次</div>
+                </div>
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">🦂</div>
+                    <div class="achievement-name">巴尔坦精英</div>
+                    <div class="achievement-desc">累计 1000 XP</div>
+                </div>
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">🌌</div>
+                    <div class="achievement-name">银河探索者</div>
+                    <div class="achievement-desc">解锁 10 个成就</div>
+                </div>
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">♟️</div>
+                    <div class="achievement-name">战术大师</div>
+                    <div class="achievement-desc">完成 20 个任务</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <h2>最近成长记录</h2>
+            <div class="activity-list" style="margin-top: 20px;">
+                <div class="activity-item">
+                    <div class="activity-date">📅 2026-03-02</div>
+                    <div class="activity-content">
+                        <h4>今日XP: 280 | 会话: 1 | 工具使用: 5次</h4>
+                        <ul>
+                            <li>✅ 完成任务: 微信公众号RSS监控系统开发</li>
+                            <li>✅ 完成任务: 配置13个公众号订阅</li>
+                            <li>✅ 完成任务: 测试运行系统（下载77篇文章）</li>
+                            <li>✅ 完成任务: 修复图片下载bug</li>
+                            <li>✅ 完成任务: 集成飞书通知功能</li>
+                            <li>✅ 完成任务: 配置3个OpenClaw Cron定时任务</li>
+                            <li>🧠 学习: WeWe RSS集成、OpenClaw Cron配置、Python RSS监控</li>
+                            <li>🏆 新成就: 连续助手</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-date">📅 2026-02-24</div>
+                    <div class="activity-content">
+                        <h4>今日XP: 170 | 会话: 2 | 工具使用: 6次</h4>
+                        <ul>
+                            <li>✅ 完成任务: 初始化成长数据结构</li>
+                            <li>✅ 完成任务: 设计符合美菲拉斯审美的成长站</li>
+                            <li>🧠 学习: AI成长系统、像素风设计</li>
+                            <li>🏆 新成就: 技能初学者</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>🌌 巴尔坦星人正在星际进化中...</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">最后更新: 2026-03-03 00:00</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Animate progress bars on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFills = document.querySelectorAll('.ability-fill-inner');
+            progressFills.forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
