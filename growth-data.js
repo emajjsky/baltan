@@ -1,8 +1,9 @@
 // AI Growth Data - Generated from memory/ai-growth/
+// Last Updated: 2026-03-09
 
 const growthData = {
   stats: {
-    totalDays: 11,
+    totalDays: 14,
     totalXP: 4415,
     totalSessions: 9,
     totalTasks: 30,
@@ -59,7 +60,9 @@ const growthData = {
     { date: "2026-03-04", xp: 195, tasks: 3, note: "Obsidian日" },
     { date: "2026-03-05", xp: 0, tasks: 0, note: "休息日" },
     { date: "2026-03-06", xp: 0, tasks: 0, note: "休息日" },
-    { date: "2026-03-07", xp: 0, tasks: 0, note: "休息日" }
+    { date: "2026-03-07", xp: 0, tasks: 0, note: "休息日" },
+    { date: "2026-03-08", xp: 0, tasks: 0, note: "休息日" },
+    { date: "2026-03-09", xp: 0, tasks: 0, note: "等待新任务" }
   ],
 
   levels: [
