@@ -1,27 +1,27 @@
 // AI Growth Data - Generated from memory/ai-growth/
-// Last Updated: 2026-03-10
+// Last Updated: 2026-03-11
 
 const growthData = {
   stats: {
-    totalDays: 15,
-    totalXP: 4415,
+    totalDays: 16,
+    totalXP: 4535,
     totalSessions: 9,
-    totalTasks: 30,
-    totalSkillUses: 198,
+    totalTasks: 33,
+    totalSkillUses: 212,
     currentLevel: 5,
     levelXP: 3220
   },
 
   skills: [
     { name: "exec", uses: 138, level: 5, xp: 1380, icon: "💻" },
-    { name: "read", uses: 56, level: 4, xp: 560, icon: "📖" },
+    { name: "read", uses: 61, level: 5, xp: 610, icon: "📖" },
     { name: "process", uses: 46, level: 4, xp: 460, icon: "⚙️" },
     { name: "write", uses: 24, level: 3, xp: 240, icon: "✍️" },
-    { name: "web_fetch", uses: 16, level: 2, xp: 160, icon: "🌐" },
+    { name: "web_fetch", uses: 18, level: 3, xp: 180, icon: "🌐" },
     { name: "unifuncs_search", uses: 12, level: 2, xp: 120, icon: "🔍" },
-    { name: "cron", uses: 8, level: 1, xp: 80, icon: "⏰" },
-    { name: "message", uses: 3, level: 1, xp: 30, icon: "💬" },
-    { name: "sessions_history", uses: 3, level: 1, xp: 30, icon: "📜" },
+    { name: "cron", uses: 11, level: 2, xp: 110, icon: "⏰" },
+    { name: "message", uses: 6, level: 1, xp: 60, icon: "💬" },
+    { name: "sessions_history", uses: 4, level: 1, xp: 40, icon: "📜" },
     { name: "sessions_list", uses: 2, level: 1, xp: 20, icon: "📋" },
     { name: "browser", uses: 2, level: 1, xp: 20, icon: "🌍" },
     { name: "unifuncs_reader", uses: 2, level: 1, xp: 20, icon: "📄" },
@@ -46,7 +46,9 @@ const growthData = {
     { id: "skill_legend", name: "👑 技能传说", desc: "累计使用技能 150 次", unlockedAt: "2026-02-27", xp: 150 },
     { id: "task_legend", name: "⭐ 任务传说", desc: "累计完成 25 个任务", unlockedAt: "2026-03-03", xp: 175 },
     { id: "five_day_streak", name: "💫 持续卓越", desc: "连续 5 天记录成长", unlockedAt: "2026-03-04", xp: 200 },
-    { id: "task_myth", name: "🌈 任务神话", desc: "累计完成 30 个任务", unlockedAt: "2026-03-04", xp: 200 }
+    { id: "task_myth", name: "🌈 任务神话", desc: "累计完成 30 个任务", unlockedAt: "2026-03-04", xp: 200 },
+    { id: "skill_myth", name: "⚔️ 技能神话", desc: "累计使用技能 200 次", unlockedAt: "2026-03-10", xp: 225 },
+    { id: "seven_day_streak", name: "🏆 连续王者", desc: "连续 7 天记录成长", unlockedAt: "2026-03-10", xp: 250 }
   ],
 
   timeline: [
@@ -62,7 +64,8 @@ const growthData = {
     { date: "2026-03-06", xp: 0, tasks: 0, note: "休息日" },
     { date: "2026-03-07", xp: 0, tasks: 0, note: "休息日" },
     { date: "2026-03-08", xp: 0, tasks: 0, note: "休息日" },
-    { date: "2026-03-09", xp: 0, tasks: 0, note: "等待新任务" }
+    { date: "2026-03-09", xp: 0, tasks: 0, note: "等待新任务" },
+    { date: "2026-03-10", xp: 120, tasks: 3, note: "成就日" }
   ],
 
   levels: [
